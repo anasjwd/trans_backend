@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth App - Sign In / Sign Up</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            transition: all 0.3s ease;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 32px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            min-height: 20px;
+            font-weight: 500;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error-result {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .toggle-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .toggle-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .toggle-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        .form-container {
+            display: none;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .user-info {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .user-info h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .user-details {
+            color: #34495e;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sign Up Container -->
+    <div class="container" id="signupContainer">
+        <h1>Create Account</h1>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="signupAlias">Username</label>
+                <input type="text" id="signupAlias" name="alias" placeholder="Choose a username" required>
+                <div class="error" id="signupAliasError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                <div class="error" id="signupEmailError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+                <div class="error" id="signupPasswordError"></div>
+                <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
+                    Must be at least 8 characters with uppercase, lowercase, and numbers
+                </small>
+            </div>
+            
+            <button type="submit" id="signupBtn">Sign Up</button>
+        </form>
+        
+        <div class="toggle-text">
+            Already have an account? 
+            <a class="toggle-link" id="showSignin">Sign In</a>
+        </div>
+        
+        <div class="result" id="signupResult" style="display: none;"></div>
+    </div>
+
+    <!-- Sign In Container -->
+    <div class="container" id="signinContainer" style="display: none;">
+        <h1>Welcome Back</h1>
+        <form id="signinForm">
+            <div class="form-group">
+                <label for="signinAlias">Username</label>
+                <input type="text" id="signinAlias" name="alias" placeholder="Enter your username" required>
+                <div class="error" id="signinAliasError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="signinPassword">Password</label>
+                <input type="password" id="signinPassword" name="password" placeholder="Enter your password" required>
+                <div class="error" id="signinPasswordError"></div>
+            </div>
+            
+            <button type="submit" id="signinBtn">Sign In</button>
+        </form>
+        
+        <div class="toggle-text">
+            Don't have an account? 
+            <a class="toggle-link" id="showSignup">Sign Up</a>
+        </div>
+        
+        <div class="result" id="signinResult" style="display: none;"></div>
+        
+        <!-- User Info (shown after successful login) -->
+        <div class="user-info" id="userInfo" style="display: none;">
+            <h3>🎉 Login Successful!</h3>
+            <div class="user-details" id="userDetails"></div>
+            <button onclick="logout()" style="background: #e74c3c; margin-top: 15px;">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:3306/api';
+
+        // DOM Elements
+        const signupContainer = document.getElementById('signupContainer');
+        const signinContainer = document.getElementById('signinContainer');
+        const signupForm = document.getElementById('signupForm');
+        const signinForm = document.getElementById('signinForm');
+        const userInfo = document.getElementById('userInfo');
+        const userDetails = document.getElementById('userDetails');
+
+        // Toggle between forms
+        document.getElementById('showSignin').addEventListener('click', (e) => {
+            e.preventDefault();
+            showSigninForm();
+        });
+
+        document.getElementById('showSignup').addEventListener('click', (e) => {
+            e.preventDefault();
+            showSignupForm();
+        });
+
+        function showSigninForm() {
+            signupContainer.style.display = 'none';
+            signinContainer.style.display = 'block';
+            clearAllErrors();
+            hideAllResults();
+            userInfo.style.display = 'none';
+        }
+
+        function showSignupForm() {
+            signinContainer.style.display = 'none';
+            signupContainer.style.display = 'block';
+            clearAllErrors();
+            hideAllResults();
+            userInfo.style.display = 'none';
+        }
+
+        // Sign Up Form Handler
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(signupForm);
+            const data = {
+                alias: formData.get('alias').trim(),
+                email: formData.get('email').trim(),
+                password: formData.get('password')
+            };
+            
+            clearSignupErrors();
+            hideSignupResult();
+            setSignupLoading(true);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    showSignupSuccess('✅ Account created successfully! You can now sign in.');
+                    signupForm.reset();
+                    setTimeout(() => showSigninForm(), 2000);
+                } else {
+                    if (result.errors) {
+                        showSignupFieldErrors(result.errors);
+                    } else {
+                        showSignupError(result.error || 'Something went wrong');
+                    }
+                }
+            } catch (error) {
+                showSignupError('❌ Cannot connect to server. Make sure your Fastify server is running on port 3306.');
+                console.error('Error:', error);
+            } finally {
+                setSignupLoading(false);
+            }
+        });
+
+        // Sign In Form Handler
+        signinForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(signinForm);
+            const data = {
+                alias: formData.get('alias').trim(),
+                password: formData.get('password')
+            };
+            
+            clearSigninErrors();
+            hideSigninResult();
+            setSigninLoading(true);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/signin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    showUserInfo(result.user);
+                    showSigninSuccess(`✅ Welcome back, ${result.user.alias}!`);
+                    signinForm.reset();
+                } else {
+                    if (result.errors) {
+                        showSigninFieldErrors(result.errors);
+                    } else {
+                        showSigninError(result.error || 'Invalid credentials');
+                    }
+                }
+            } catch (error) {
+                showSigninError('❌ Cannot connect to server. Make sure your Fastify server is running on port 3306.');
+                console.error('Error:', error);
+            } finally {
+                setSigninLoading(false);
+            }
+        });
+
+        // Utility Functions
+        function showSignupFieldErrors(errors) {
+            if (errors.alias) document.getElementById('signupAliasError').textContent = errors.alias;
+            if (errors.email) document.getElementById('signupEmailError').textContent = errors.email;
+            if (errors.password) document.getElementById('signupPasswordError').textContent = errors.password;
+        }
+
+        function showSigninFieldErrors(errors) {
+            if (errors.alias) document.getElementById('signinAliasError').textContent = errors.alias;
+            if (errors.password) document.getElementById('signinPasswordError').textContent = errors.password;
+        }
+
+        function clearSignupErrors() {
+            document.querySelectorAll('#signupForm .error').forEach(el => el.textContent = '');
+        }
+
+        function clearSigninErrors() {
+            document.querySelectorAll('#signinForm .error').forEach(el => el.textContent = '');
+        }
+
+        function clearAllErrors() {
+            clearSignupErrors();
+            clearSigninErrors();
+        }
+
+        function showSignupSuccess(message) {
+            const resultDiv = document.getElementById('signupResult');
+            resultDiv.textContent = message;
+            resultDiv.className = 'result success';
+            resultDiv.style.display = 'block';
+        }
+
+        function showSignupError(message) {
+            const resultDiv = document.getElementById('signupResult');
+            resultDiv.textContent = message;
+            resultDiv.className = 'result error-result';
+            resultDiv.style.display = 'block';
+        }
+
+        function showSigninSuccess(message) {
+            const resultDiv = document.getElementById('signinResult');
+            resultDiv.textContent = message;
+            resultDiv.className = 'result success';
+            resultDiv.style.display = 'block';
+        }
+
+        function showSigninError(message) {
+            const resultDiv = document.getElementById('signinResult');
+            resultDiv.textContent = message;
+            resultDiv.className = 'result error-result';
+            resultDiv.style.display = 'block';
+        }
+
+        function hideSignupResult() {
+            document.getElementById('signupResult').style.display = 'none';
+        }
+
+        function hideSigninResult() {
+            document.getElementById('signinResult').style.display = 'none';
+        }
+
+        function hideAllResults() {
+            hideSignupResult();
+            hideSigninResult();
+        }
+
+        function setSignupLoading(loading) {
+            const btn = document.getElementById('signupBtn');
+            if (loading) {
+                btn.disabled = true;
+                btn.textContent = 'Creating Account...';
+                signupForm.classList.add('loading');
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Sign Up';
+                signupForm.classList.remove('loading');
+            }
+        }
+
+        function setSigninLoading(loading) {
+            const btn = document.getElementById('signinBtn');
+            if (loading) {
+                btn.disabled = true;
+                btn.textContent = 'Signing In...';
+                signinForm.classList.add('loading');
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+                signinForm.classList.remove('loading');
+            }
+        }
+
+        function showUserInfo(user) {
+            userDetails.innerHTML = `
+                <p><strong>Username:</strong> ${user.alias}</p>
+                <p><strong>Email:</strong> ${user.email}</p>
+                <p><strong>User ID:</strong> ${user.id}</p>
+            `;
+            userInfo.style.display = 'block';
+        }
+
+        function logout() {
+            userInfo.style.display = 'none';
+            hideSigninResult();
+            showSigninForm();
+        }
+
+        // Clear errors when user starts typing
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                const formType = input.closest('form').id === 'signupForm' ? 'signup' : 'signin';
+                const fieldName = input.name;
+                
+                if (formType === 'signup') {
+                    document.getElementById(`signup${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}Error`).textContent = '';
+                } else {
+                    document.getElementById(`signin${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}Error`).textContent = '';
+                }
+                
+                hideAllResults();
+            });
+        });
+
+        // Check if server is running on page load
+        window.addEventListener('load', async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL.replace('/api', '')}/health`);
+                if (response.ok) {
+                    console.log('✅ Server is running');
+                }
+            } catch (error) {
+                console.log('❌ Server is not running');
+            }
+        });
+    </script>
+</body>
+</html>
