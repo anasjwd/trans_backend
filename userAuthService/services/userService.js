@@ -1,5 +1,6 @@
 import UserModel from "../models/user.js"
 
+// TODO: name it as User
 class UserService {
     constructor() {
         this.userModel = new UserModel();

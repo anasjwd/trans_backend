@@ -1,0 +1,3 @@
+use arrow functions to get rid of repeating .bind()
+bind is used because we are passing a function as a reference, and normal functions determines this based on how they are called
+

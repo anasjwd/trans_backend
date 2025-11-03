@@ -14,7 +14,7 @@ await app.register(fastifyCors, {
     credentials: true
 });
 
-await app.register(authRoutes, {prefix: '/api'});
+await app.register(authRoutes, {prefix: '/api/auth'});
 
 app.get('/health', async (request, reply) => {
     return {status: 'OK', timestamp: new Date().toISOString()};

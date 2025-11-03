@@ -7,6 +7,7 @@ class AuthController {
         this.userService = new UserService();
     }
 
+    // TODO: add a prehandler to validate credentials
     signup(request, reply) {
         const {alias, email, password} = request.body;
         const errors = {};
@@ -31,7 +32,9 @@ class AuthController {
         }
 
         try {
+            // TODO: check if user is unique
             const user = this.userService.register({alias, email, password});
+            // TODO: validate email
             const token = request.server.jwt.sign({
                 id: user.id,
                 alias: user.alias,

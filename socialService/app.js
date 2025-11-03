@@ -1,28 +1,40 @@
-import {fastify} from 'fastify';
+import Fastify from 'fastify';
 import fastifyCors from '@fastify/cors';
 import jwtPlugin from './plugins/jwtPlugin.js';
+import socialRoutes from './routes/socialRoutes.js'
 import 'dotenv/config';
 
-const app = fastify({logger: true});
+const PORT = Number(process.env.PORT) || 3307;
+const HOST = process.env.HOST || '0.0.0.0';
+
+const app = Fastify({
+  logger: {
+    level: 'info',
+    transport: {
+      target: 'pino-pretty',
+      options: { colorize: true }
+    }
+  }
+});
 
 app.register(jwtPlugin);
 
 await app.register(fastifyCors, {
     origin: true,
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 });
 
-await app.register(socialRoutes, {prefix: '/api'});
+await app.register(socialRoutes, {prefix: '/api/users'});
 
 app.get('/health', async (request, reply) => {
     return {status: 'OK', timestamp: new Date().toISOString()};
-})
+});
 
 const start = async () => {
     try {
-        await app.listen({port: 3307});
-        console.log('🚀 Server started successfully on http://localhost:3306');
+        const address = await app.listen({port: PORT, host: HOST});
+        app.log.info(`🚀 Server started successfully on ${address}`);
     } catch(error) {
         app.log.error(error);
         process.exit(1);
