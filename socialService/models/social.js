@@ -10,7 +10,11 @@ class SocialModel {
         this.db.exec(`
             CREATE TABLE IF NOT EXISTS user_profiles (
             id INTEGER PRIMARY KEY,
+<<<<<<< HEAD
             bio TEXT,
+=======
+            bio TEXT default 'about you',
+>>>>>>> cbccef3 (initial commit)
             avatar_url TEXT,
             status TEXT DEFAULT 'online',
             rating INTEGER DEFAULT 100,
