@@ -23,12 +23,8 @@ class SocialController {
     }
 
     createProfile(request, reply) { //POST
-<<<<<<< HEAD
-        const userId = request.user.id;
-=======
         const userId = parseInt(request.headers['x-user-id']);
         console.log(">>>>>>>>>>", userId);
->>>>>>> cbccef3 (initial commit)
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         }
@@ -66,13 +62,8 @@ class SocialController {
     }
 
     getUserProfile(request, reply) {
-<<<<<<< HEAD
-        const {userId} = request.params;
-        if (!userId || typeof userId !== 'number') {
-=======
         const userId = parseInt(request.params.userId);
         if (!userId || isNaN(userId)) {
->>>>>>> cbccef3 (initial commit)
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         }
 
@@ -112,19 +103,11 @@ class SocialController {
     }
 
     sendFriendRequest(request, reply) { // POST
-<<<<<<< HEAD
-        const {friendId} = request.params;
-        const userId = request.user.id;
-        if (!userId || typeof userId !== 'number') {
-            return reply.code(400).send({success: false, error: 'The user ID should be a number'});
-        } else if (!friendId || typeof friendId !== 'number') {
-=======
-        const friendId = parseInt(request.params.friendId);
+       const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         } else if (!friendId || isNaN(friendId)) {
->>>>>>> cbccef3 (initial commit)
             return reply.code(400).send({success: false, error: 'The friend ID should be a number'});
         }
         if (userId === friendId) {
@@ -144,19 +127,11 @@ class SocialController {
     }
 
     acceptFriendRequest(request, reply) { // PUT
-<<<<<<< HEAD
-        const {friendId} = request.params;
-        const userId = request.user.id;
-        if (!userId || typeof userId !== 'number') {
-            return reply.code(400).send({success: false, error: 'The user ID should be a number'});
-        } else if (!friendId || typeof friendId !== 'number') {
-=======
-        const friendId = parseInt(request.params.friendId);
+       const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         } else if (!friendId || isNaN(friendId)) {
->>>>>>> cbccef3 (initial commit)
             return reply.code(400).send({success: false, error: 'The friend ID should be a number'});
         }
 
@@ -174,19 +149,11 @@ class SocialController {
     }
 
     deleteFriendship(request, reply) { // DELETE
-<<<<<<< HEAD
-        const {friendId} = request.params;
-        const userId = request.user.id;
-        if (!userId || typeof userId !== 'number') {
-            return reply.code(400).send({success: false, error: 'The user ID should be a number'});
-        } else if (!friendId || typeof friendId !== 'number') {
-=======
         const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         } else if (!friendId || isNaN(friendId)) {
->>>>>>> cbccef3 (initial commit)
             return reply.code(400).send({success: false, error: 'The friend ID should be a number'});
         }
 
@@ -204,19 +171,11 @@ class SocialController {
     }
 
     blockFriend(request, reply) { // PUT
-<<<<<<< HEAD
-        const {friendId} = request.params;
-        const userId = request.user.id;
-        if (!userId || typeof userId !== 'number') {
-            return reply.code(400).send({success: false, error: 'The user ID should be a number'});
-        } else if (!friendId || typeof friendId !== 'number') {
-=======
-        const friendId = parseInt(request.params.friendId);
+       const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         } else if (!friendId || isNaN(friendId)) {
->>>>>>> cbccef3 (initial commit)
             return reply.code(400).send({success: false, error: 'The friend ID should be a number'});
         }
 
@@ -234,19 +193,11 @@ class SocialController {
     }
 
     unblockFriend(request, reply) { // PUT
-<<<<<<< HEAD
-        const {friendId} = request.params;
-        const userId = request.user.id;
-        if (!userId || typeof userId !== 'number') {
-            return reply.code(400).send({success: false, error: 'The user ID should be a number'});
-        } else if (!friendId || typeof friendId !== 'number') {
-=======
-        const friendId = parseInt(request.params.friendId);
+       const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         } else if (!friendId || isNaN(friendId)) {
->>>>>>> cbccef3 (initial commit)
             return reply.code(400).send({success: false, error: 'The friend ID should be a number'});
         }
 
@@ -264,19 +215,11 @@ class SocialController {
     }
 
     checkFriendship(request, reply) {
-<<<<<<< HEAD
-        const {friendId} = request.params;
-        const userId = request.user.id;
-        if (!userId || typeof userId !== 'number') {
-            return reply.code(400).send({success: false, error: 'The user ID should be a number'});
-        } else if (!friendId || typeof friendId !== 'number') {
-=======
-        const friendId = parseInt(request.params.friendId);
+       const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         } else if (!friendId || isNaN(friendId)) {
->>>>>>> cbccef3 (initial commit)
             return reply.code(400).send({success: false, error: 'The friend ID should be a number'});
         }
 
@@ -301,11 +244,7 @@ class SocialController {
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
-<<<<<<< HEAD
-        }        
-=======
         }
->>>>>>> cbccef3 (initial commit)
 
         try {
             const friends = this.socialDb.getAllUserFriendships(userId);
@@ -359,19 +298,11 @@ class SocialController {
     }
 
     getFriendshipStatus(request, reply) {
-<<<<<<< HEAD
-        const {friendId} = request.params;
-        const userId = request.user.id;
-        if (!userId || typeof userId !== 'number') {
-            return reply.code(400).send({success: false, error: 'The user ID should be a number'});
-        } else if (!friendId || typeof friendId !== 'number') {
-=======
-        const friendId = parseInt(request.params.friendId);
+       const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         } else if (!friendId || isNaN(friendId)) {
->>>>>>> cbccef3 (initial commit)
             return reply.code(400).send({success: false, error: 'The friend ID should be a number'});
         }
 
@@ -389,11 +320,7 @@ class SocialController {
     }
 
     close() {
-<<<<<<< HEAD
-        this.db.close();
-=======
         this.socialDb.close();
->>>>>>> cbccef3 (initial commit)
     }
 }
 

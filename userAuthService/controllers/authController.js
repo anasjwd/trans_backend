@@ -5,12 +5,6 @@ import {fastifyJwt} from '@fastify/jwt';
 class AuthController {
     constructor() {
         this.userService = new UserService();
-<<<<<<< HEAD
-    }
-
-    // TODO: add a prehandler to validate credentials
-    signup(request, reply) {
-=======
         this.socialServiceUrl = process.env.SOCIAL_SERVICE_URL || 'http://localhost:3307';
     }
 
@@ -40,7 +34,6 @@ class AuthController {
 
     // TODO: add a prehandler to validate credentials
     async signup(request, reply) {
->>>>>>> cbccef3 (initial commit)
         const {alias, email, password} = request.body;
         const errors = {};
 
@@ -66,31 +59,19 @@ class AuthController {
         try {
             // TODO: check if user is unique
             const user = this.userService.register({alias, email, password});
-<<<<<<< HEAD
-=======
-            console.log(">>>>>>>>>>>>>>>>>1<<<<<<<<<<<<<<");
->>>>>>> cbccef3 (initial commit)
             // TODO: validate email
             const token = request.server.jwt.sign({
                 id: user.id,
                 alias: user.alias,
                 email: user.email
             });
-<<<<<<< HEAD
-=======
-            console.log(">>>>>>>>>>>>>>>>>2<<<<<<<<<<<<<<");
-
-            const profileCreation = await this.createSocialProfile(user.id, token);
-            console.log(">>>>>>>>>>>>>>>>>3<<<<<<<<<<<<<<");
             
+            const profileCreation = await this.createSocialProfile(user.id, token);
             if (!profileCreation.success) {
                 console.warn(`User created but profile creation failed for user ${user.id}`);
                 // TODO: You might want to implement a retry mechanism or queue here
             }
-            console.log(">>>>>>>>>>>>>>>>>4<<<<<<<<<<<<<<");
 
-
->>>>>>> cbccef3 (initial commit)
             return {
                 success: true,
                 user: {
@@ -98,12 +79,8 @@ class AuthController {
                     alias: user.alias,
                     email: user.email
                 },
-<<<<<<< HEAD
-                token: token
-=======
                 token: token,
                 profileCreated: profileCreation.success
->>>>>>> cbccef3 (initial commit)
             };
         } catch (error) {
             if (error.message.includes('alias')) {
