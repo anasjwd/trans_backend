@@ -1,6 +1,3 @@
-use arrow functions to get rid of repeating .bind()
-bind is used because we are passing a function as a reference, and normal functions determines this based on how they are called
-
 when calling createProfile it is a service to service communication, I need authorization
 
 in authService when SQL fails I don't protect it, like when the database is not available it returns alias is already in use but in fact the database failed

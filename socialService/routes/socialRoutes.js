@@ -4,29 +4,29 @@ const socialController = new SocialController();
 
 async function socialRoutes(fastify, options) {
     // Current user's profile
-    fastify.post('/profile', socialController.createProfile.bind(socialController));
-    fastify.get('/profile', {onRequest: [fastify.jwtAuth]}, socialController.getProfile.bind(socialController));
-    fastify.put('/profile', {onRequest: [fastify.jwtAuth]}, socialController.updateProfile.bind(socialController));
+    fastify.post('/profile', socialController.createProfile);
+    fastify.get('/profile', {onRequest: [fastify.jwtAuth]}, socialController.getProfile);
+    fastify.put('/profile', {onRequest: [fastify.jwtAuth]}, socialController.updateProfile);
 
     // Specific user's profile
-    fastify.get('/:userId/profile', socialController.getUserProfile.bind(socialController));
+    fastify.get('/:userId/profile', socialController.getUserProfile);
 
     // Friendships
-    fastify.get('/friends', {onRequest: [fastify.jwtAuth]}, socialController.getAllUserFriends.bind(socialController));
-    fastify.get('/friends/requests/received', {onRequest: [fastify.jwtAuth]}, socialController.getReceivedRequests.bind(socialController));
-    fastify.get('/friends/requests/sent', {onRequest: [fastify.jwtAuth]}, socialController.getSentRequests.bind(socialController));
+    fastify.get('/friends', {onRequest: [fastify.jwtAuth]}, socialController.getAllUserFriends);
+    fastify.get('/friends/requests/received', {onRequest: [fastify.jwtAuth]}, socialController.getReceivedRequests);
+    fastify.get('/friends/requests/sent', {onRequest: [fastify.jwtAuth]}, socialController.getSentRequests);
     
     // Friend Requests
-    fastify.post('/friends/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.sendFriendRequest.bind(socialController));
-    fastify.put('/friends/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.acceptFriendRequest.bind(socialController));
-    fastify.delete('/friends/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.deleteFriendship.bind(socialController));
+    fastify.post('/friends/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.sendFriendRequest);
+    fastify.put('/friends/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.acceptFriendRequest);
+    fastify.delete('/friends/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.deleteFriendship);
     
     // Friendship Status
-    fastify.get('/friends/:friendId/status', {onRequest: [fastify.jwtAuth]}, socialController.getFriendshipStatus.bind(socialController));
+    fastify.get('/friends/:friendId/status', {onRequest: [fastify.jwtAuth]}, socialController.getFriendshipStatus);
     
     // Blocking/Unblocking
-    fastify.put('/block/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.blockFriend.bind(socialController));
-    fastify.put('/unblock/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.unblockFriend.bind(socialController));
+    fastify.put('/block/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.blockFriend);
+    fastify.put('/unblock/:friendId', {onRequest: [fastify.jwtAuth]}, socialController.unblockFriend);
 }
 
 export default socialRoutes;

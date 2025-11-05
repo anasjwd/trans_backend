@@ -22,9 +22,8 @@ class SocialController {
         }
     }
 
-    createProfile(request, reply) { //POST
+    createProfile = async (request, reply) => { //POST
         const userId = parseInt(request.headers['x-user-id']);
-        console.log(">>>>>>>>>>", userId);
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
         }
@@ -42,7 +41,7 @@ class SocialController {
         }
     }
 
-    getProfile(request, reply) { //GET
+    getProfile = async (request, reply) => { //GET
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
@@ -61,7 +60,7 @@ class SocialController {
         }
     }
 
-    getUserProfile(request, reply) {
+    getUserProfile = async (request, reply) => {
         const userId = parseInt(request.params.userId);
         if (!userId || isNaN(userId)) {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
@@ -80,7 +79,7 @@ class SocialController {
         }
     }
 
-    updateProfile(request, reply) { //PUT
+    updateProfile = async (request, reply) => { //PUT
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
@@ -102,7 +101,7 @@ class SocialController {
         } 
     }
 
-    sendFriendRequest(request, reply) { // POST
+    sendFriendRequest = async (request, reply) => { // POST
        const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
@@ -126,7 +125,7 @@ class SocialController {
         }
     }
 
-    acceptFriendRequest(request, reply) { // PUT
+    acceptFriendRequest = async (request, reply) => { // PUT
        const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
@@ -148,7 +147,7 @@ class SocialController {
         }
     }
 
-    deleteFriendship(request, reply) { // DELETE
+    deleteFriendship = async (request, reply) => { // DELETE
         const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
@@ -170,7 +169,7 @@ class SocialController {
         }
     }
 
-    blockFriend(request, reply) { // PUT
+    blockFriend = async (request, reply) => { // PUT
        const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
@@ -192,7 +191,7 @@ class SocialController {
         }
     }
 
-    unblockFriend(request, reply) { // PUT
+    unblockFriend = async (request, reply) => { // PUT
        const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
@@ -214,7 +213,7 @@ class SocialController {
         }
     }
 
-    checkFriendship(request, reply) {
+    checkFriendship = async (request, reply) => {
        const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
@@ -240,7 +239,7 @@ class SocialController {
         }
     }
 
-    getAllUserFriends(request, reply) {
+    getAllUserFriends = async (request, reply) => {
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
@@ -259,7 +258,7 @@ class SocialController {
         }
     }
 
-    getReceivedRequests(request, reply) {
+    getReceivedRequests = async (request, reply) => {
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
@@ -278,7 +277,7 @@ class SocialController {
         }
     }
 
-    getSentRequests(request, reply) {
+    getSentRequests = async (request, reply) => {
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
             return reply.code(400).send({success: false, error: 'The user ID should be a number'});
@@ -297,7 +296,7 @@ class SocialController {
         }
     }
 
-    getFriendshipStatus(request, reply) {
+    getFriendshipStatus = async (request, reply) => {
        const friendId = parseInt(request.params.friendId);
         const userId = request.user.id;
         if (!userId || typeof userId !== 'number') {
