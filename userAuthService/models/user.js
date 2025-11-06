@@ -51,10 +51,11 @@ class UserModel {
     const stmt = this.db.prepare(
       "SELECT id, alias, email FROM users WHERE alias = ? AND password = ?"
     );
-    return stmt.get(alias, password);
+    const user = stmt.get(alias, password);
+    return user;
   }
 
-  isUniqueCredentials(alias, email) {
+  areUniqueCredentials(alias, email) {
     const aliasExists = this.findByAlias(alias);
     const emailExists = this.findByEmail(email);
 

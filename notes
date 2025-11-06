@@ -1,7 +1,5 @@
 when calling createProfile it is a service to service communication, I need authorization
 
-in authService when SQL fails I don't protect it, like when the database is not available it returns alias is already in use but in fact the database failed
-
 I need a delete user endpoint
 
 when getting friends I need to return: alias, avatar, online/offline, rating

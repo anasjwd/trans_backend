@@ -8,6 +8,7 @@ async function authRoutes(fastify, options) {
     //fastify.post('/verify-email', authController.verifyEmail.bind(authController));
     // TODO: enable 2FA
     fastify.post('/signin', authController.signin);
+    fastify.post('/logout', authController.logout);
     // TODO: add logout, change status from online to offline
 }
 

@@ -9,13 +9,11 @@ class AuthController {
     }
 
     handleSqlError(error) {
-        switch (error.code) {
+        switch (error) {
             case 'SQLITE_CONSTRAINT_UNIQUE':
-                return { status: 409, message: 'Friendship already exists' };
-            case 'SQLITE_CONSTRAINT_FOREIGNKEY':
-                return { status: 404, message: 'User not found' };
+                return { status: 409, message: 'duplicate value unique field' };
             case 'SQLITE_CONSTRAINT_PRIMARYKEY':
-                return { status: 409, message: 'Profile already exists' };
+                return { status: 409, message: 'user already exists' };
             case 'SQLITE_CONSTRAINT_NOTNULL':
                 return { status: 400, message: 'Missing required fields' };
             case 'SQLITE_CONSTRAINT_CHECK':
@@ -73,8 +71,16 @@ class AuthController {
             return reply.code(400).send({success: false, errors});
         }
 
+        const areUnique = this.userModel.areUniqueCredentials(alias, email);
+        if (areUnique.isValid === false) {
+            if (areUnique.field === 'alias') {
+                return reply.code(409).send({success: false, error: 'alias is already taken'});
+            } else if (areUnique.field === 'email') {
+                return reply.code(409).send({success: false, error: 'Email is already used'});
+            }
+        }
+
         try {
-            // TODO: check if user is unique
             const user = this.userModel.create({alias, email, password});
             // TODO: validate email
             const token = request.server.jwt.sign({
@@ -152,8 +158,8 @@ class AuthController {
                 token: token
             });
         } catch(error) {
-            if (error.code && error.code.includes('SQLITE')) {
-                const {status, message} = this.handleSqlError(error.code);
+            if (error.includes('SQLITE')) {
+                const {status, message} = this.handleSqlError(error);
                 return reply.code(status).send({success: false, error: message});
             } else {
                 return reply.code(500).send({
@@ -161,6 +167,35 @@ class AuthController {
                     error: 'Server Interal Error'
                 });
             }
+        }
+    }
+
+    logout = async (request, reply) => {
+        try {
+            const response = await fetch(`${this.socialServiceUrl}/api/users/profile`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    'x-user-id': userId
+                },
+                body: {
+                    status: 'offline'
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Failed to logout:', errorData);
+                return { success: false, error: errorData };
+            }
+
+            return await response.json();
+        } catch (error) {
+            return reply.code(500).send({
+                    success:false,
+                    error: 'Server Interal Error'
+                });
         }
     }
 }

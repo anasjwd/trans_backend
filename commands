@@ -1,0 +1,15 @@
+to signup: 
+   curl -X POST http://localhost:3306/api/auth/signup \
+     -H "Content-Type: application/json" \
+     -d '{"alias":"testuser","email":"test@example.com","password":"Test1234"}'
+
+
+to signin:
+   curl -X POST http://localhost:3306/api/auth/signin \
+     -H "Content-Type: application/json" \
+     -d '{"alias":"testuser","password":"Test1234"}'
+
+
+to get Profile:
+   curl -X GET http://localhost:3307/api/users/profile \
+     -H "Authorization: Bearer YOUR_TOKEN_HERE"
