@@ -1,13 +1,13 @@
 import AuthController from '../controllers/authController.js';
+import {signupValidation, signinValidation} from '../middleware/validation.js'
 
 const authController = new AuthController();
 
 async function authRoutes(fastify, options) {
-    fastify.post('/auth/signup', authController.signup);
-    fastify.post('/auth/signin', authController.signin);
-    fastify.post('/verify-email', authController.verifyEmail);
-    // logout should be protected using JWT
-    fastify.post('/auth/logout', authController.logout);
+    fastify.post('/signup', {preValidation: [signupValidation]}, authController.signup);
+    fastify.post('/signin', {preValidation: [signinValidation]}, authController.signin);
+    // TODO: fastify.post('/verify-email', authController.verifyEmail);
+    fastify.post('/logout', {onRequest: [fastify.jwtAuth]}, authController.logout);
 }
 
 export default authRoutes;

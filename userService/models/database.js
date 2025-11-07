@@ -7,7 +7,7 @@ class DatabaseConnection {
             return DatabaseConnection.instance;
         }
         
-        this.db = new Database('../database/userService.db');
+        this.db = new Database('/home/ahanaf/Desktop/trans_backend/userService/database/user.db');
         this.db.pragma('foreign_keys = ON'); // Enable foreign keys
         this.initTables();
         
@@ -31,7 +31,7 @@ class DatabaseConnection {
         // User profiles table
         this.db.exec(`
             CREATE TABLE IF NOT EXISTS user_profiles (
-                user_id INTEGER PRIMARY KEY,
+                id INTEGER PRIMARY KEY,
                 bio TEXT DEFAULT 'Hello, I am new here!',
                 avatar_url TEXT,
                 status TEXT DEFAULT 'online',
@@ -40,7 +40,7 @@ class DatabaseConnection {
                 losses INTEGER DEFAULT 0,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE
             )
         `);
 
@@ -52,7 +52,7 @@ class DatabaseConnection {
             BEGIN
                 UPDATE user_profiles
                 SET updated_at = CURRENT_TIMESTAMP
-                WHERE user_id = NEW.user_id;
+                WHERE id = NEW.id;
             END;
         `);
 

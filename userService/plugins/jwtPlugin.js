@@ -2,7 +2,13 @@ import fastifyPlugin from 'fastify-plugin';
 import fastifyJwt from '@fastify/jwt';
 
 async function jwtPlugin(fastify, opts) {
-    await fastify.register(fastifyJwt, { secret: process.env.JWT_SECRET });
+    await fastify.register(fastifyJwt, { 
+        secret: process.env.JWT_SECRET,
+        cookie: {
+            cookieName: 'token',
+            signed: false
+        }
+    });
 
     fastify.decorate("jwtAuth", async function(request, reply){
         try {

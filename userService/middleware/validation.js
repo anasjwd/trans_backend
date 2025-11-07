@@ -40,10 +40,10 @@ function isValidAlias(alias) {
     return { isValid: true };
 }
 
-async function validateCredentials(request, reply) {
+async function signupValidation(request, reply) {
     const {firstName, lastName, alias, email, password} = request.body;
     if (!areAllStrings({firstName, lastName, alias, email, password})) {
-    return reply.code(400).send({
+        return reply.code(400).send({
             success: false,
             error: 'Invalid data types'
         });
@@ -57,23 +57,39 @@ async function validateCredentials(request, reply) {
     if (aliasCheck.isValid === false) {
         return reply.code(400).send({
             success: false,
-            error: checkAlias.error
+            error: aliasCheck.error
         });
     }
     const emailCheck = isValidEmail(email);
     if (emailCheck.isValid === false) {
         return reply.code(400).send({
             success: false,
-            error: checkEmail.error
+            error: emailCheck.error
         });
     }
     const passwordCheck = isStrongPassword(password);
     if (passwordCheck.isValid === false) {
         return reply.code(400).send({
             success: false,
-            error: checkPassword.error
+            error: passwordCheck.error
         });
     }
+    console.log("sigup successfully >>>>>>>>>>>>>>>>")
 }
 
-export default validateCredentials;
+async function signinValidation(request, reply) {
+    const {alias, password} = request.body;
+    if (!areAllStrings({alias, password})) {
+        return reply.code(400).send({
+            success: false,
+            error: 'Invalid data types'
+        });
+    } else if (!areFieldsPresent({alias, password})) {
+        return reply.code(400).send({
+            success: false,
+            error: 'All fields are required'
+        });
+    }
+} 
+
+export {signupValidation, signinValidation};

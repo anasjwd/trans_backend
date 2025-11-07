@@ -1,4 +1,4 @@
-import dbInstance from "./database";
+import dbInstance from "./database.js";
 
 class ProfileModel {
     constructor() {
@@ -32,9 +32,6 @@ class ProfileModel {
         const stmt = this.db.prepare(`UPDATE user_profiles SET ${toUpdate.join(', ')} WHERE id = ?`);
         return stmt.run(...values, userId);
     }
-
-    createFriendship(userId, friendId) {
-        const stmt = this.db.prepare(`INSERT INTO friendships (requester_id, requested_id) VALUES(?, ?)`);
-        return stmt.run(userId, friendId);
-    }
 }
+
+export default ProfileModel;

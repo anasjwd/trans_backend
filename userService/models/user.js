@@ -1,6 +1,5 @@
-import { use } from 'react';
 import dbInstance from './database.js';
-import bcrypt, { hash } from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 class UserModel {
     constructor() {
@@ -31,16 +30,16 @@ class UserModel {
         return { isValid: true };
     }
 
-    async create(userData) {
-        unique = this.areUniqueCredentials(userData.alias, userData.email);
+    create(userData) {
+        const unique = this.areUniqueCredentials(userData.alias, userData.email);
         if (unique.isValid === false) {
             if (unique.field === 'alias') {
-                throw Error('ALIAS_TAKEN');
+                throw new Error('ALIAS_TAKEN');
             } else if (unique.field === 'email') {
-                throw Error('EMAIL_USED');
+                throw new Error('EMAIL_USED');
             }
         }
-        const hashedPassword = bcrypt.hash(userData.password, 15);
+        const hashedPassword = bcrypt.hashSync(userData.password, 10);
         const stmt = this.db.prepare(`
             INSERT INTO users (first_name, last_name, alias, email, password)
             VALUES (?, ?, ?, ?, ?)
@@ -49,14 +48,14 @@ class UserModel {
         return { id: result.lastInsertRowid, ...userData };
     }
     
-    async checkCredentials(alias, password) {
+    checkCredentials(alias, password) {
         const user = this.findByAlias(alias);
         if (!user) {
-           throw Error('USER_NOT_FOUND');
+           throw new Error('USER_NOT_FOUND');
         }
-        const passwordCorrect = await bcrypt.compare(password, user.password);
+        const passwordCorrect = bcrypt.compareSync(password, user.password);
         if (passwordCorrect === false) {
-            throw Error('PASSWORD_INCORRECT');
+            throw new Error('PASSWORD_INCORRECT');
         }
         return user;
     }
