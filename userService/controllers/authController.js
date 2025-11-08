@@ -25,11 +25,7 @@ class AuthController {
                 sameSite: 'lax',
                 maxAge: 7 * 24 * 60 * 60 * 1000,
             });
-            // TODO: add profile creation here
             const holder = this.profileModel.createProfile(user.id);
-            console.log("_________________________________")
-            console.log(holder);
-            console.log("_________________________________")
             return {
                 success: true, 
                 user: {
@@ -39,6 +35,7 @@ class AuthController {
                     alias: user.alias,
                     email: user.email
                 },
+                profileCreated: holder.changes === 1 ? true : false,
             };
         } catch(error) {
             if (error.message === 'ALIAS_TAKEN') {
@@ -115,7 +112,7 @@ class AuthController {
                 sameSite: 'lax',
                 maxAge: -1,
             });
-            // TODO: set status from online to offline in profile db
+            this.profileModel.updateProfile(request.user.id, {'status': 'offline'});
             return {
                 success: true,
                 message: 'Logged out successfully'

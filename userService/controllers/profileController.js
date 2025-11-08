@@ -28,9 +28,28 @@ class ProfileController {
         }
     }
 
-    // viewUserProfile(request, reply) {
+    viewUserProfile(request, reply) {
+        const userId = request.params.userId;
+        try {
+            const user = this.userModel.findById(userId);
+            if (!user) {
+                return reply.code(404).send({
+                    success: false,
+                    error: 'User not found'
+                });
+            }
+            const profile = this.profileModel.getProfile(userId);
+            if (!profile) {
+                return reply.code(404).send({
+                    success: false,
+                    error: 'Profile can\'t be reached'
+                });
+            }
+            
+        } catch(error) {
 
-    // }
+        }
+    }
 
     // updateProfile(request, reply) {
 

@@ -6,6 +6,11 @@ class UserModel {
         this.db = dbInstance.getConnection();
     }
 
+    findById(id) {
+        const stmt = this.db.prepare('SELECT * FROM users WHERE id = ?');
+        return stmt.get(id);
+    }
+
     findAll() {
         const stmt = this.db.prepare('SELECT id, alias, email, created_at FROM users');
         return stmt.all();
