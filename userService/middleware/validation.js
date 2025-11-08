@@ -74,7 +74,6 @@ async function signupValidation(request, reply) {
             error: passwordCheck.error
         });
     }
-    console.log("sigup successfully >>>>>>>>>>>>>>>>")
 }
 
 async function signinValidation(request, reply) {

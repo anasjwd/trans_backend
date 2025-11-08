@@ -1,4 +1,4 @@
-// models/database.js - Shared database connection
+// shared database connection
 import Database from 'better-sqlite3';
 
 class DatabaseConnection {
@@ -7,7 +7,7 @@ class DatabaseConnection {
             return DatabaseConnection.instance;
         }
         
-        this.db = new Database('/home/ajawad/Projects/trans_backend-main/userService/database/user.db');
+        this.db = new Database('/home/ahanaf/Desktop/trans_backend/userService/database/user.db');
         this.db.pragma('foreign_keys = ON'); // Enable foreign keys
         this.initTables();
         

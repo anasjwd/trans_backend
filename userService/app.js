@@ -4,6 +4,7 @@ import jwtPlugin from './plugins/jwtPlugin.js';
 import fastifyCookie from '@fastify/cookie';
 import 'dotenv/config';
 import authRoutes from './routes/authRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
 
 const PORT = Number(process.env.PORT) || 3306;
 const HOST = process.env.HOST || '0.0.0.0';
@@ -29,6 +30,7 @@ await app.register(fastifyCors, {
 });
 
 await app.register(authRoutes, {prefix: '/api/users/auth'});
+await app.register(profileRoutes, {prefix: '/api/users/profile'});
 
 app.get('/health', async (request, reply) => {
     return {status: 'OK', timestamp: new Date().toISOString()};

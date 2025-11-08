@@ -7,7 +7,7 @@ class UserModel {
     }
 
     findById(id) {
-        const stmt = this.db.prepare('SELECT * FROM users WHERE id = ?');
+        const stmt = this.db.prepare('SELECT id, first_name, last_name, alias, email FROM users WHERE id = ?');
         return stmt.get(id);
     }
 
