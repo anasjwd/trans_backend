@@ -6,7 +6,7 @@ const authController = new AuthController();
 async function authRoutes(fastify, options) {
     fastify.post('/signup', {preValidation: [signupValidation]}, authController.signup);
     fastify.post('/signin', {preValidation: [signinValidation]}, authController.signin);
-    // TODO: fastify.post('/verify-email', authController.verifyEmail);
+    // TODO: fastify.post('/verifyemail/:code', authController.verifyEmail);
     fastify.post('/logout', {onRequest: [fastify.jwtAuth]}, authController.logout);
 }
 

@@ -76,9 +76,25 @@ class ProfileController {
         }
         try {
             const result = this.profileModel.updateProfile(userId, updates);
+            if (!result) {
+                return reply.code(400).send({
+                    success: false,
+                    error: 'Invalid updates are made'
+                });
+            }
             return {success: true, message: 'Profile updated'};
         } catch(error) {
-            
+            if (error.code && error.code.includes('SQLITE')) {
+                return reply.code(500).send({
+                    success: false,
+                    error: 'Database error - Profile update failed',
+                });
+            } else {
+                return reply.code(500).send({
+                    success: false,
+                    error: 'Internal Server Error - Profile update failed',
+                });
+            }
         }
     }
 }
