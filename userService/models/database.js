@@ -24,6 +24,7 @@ class DatabaseConnection {
                 alias TEXT NOT NULL UNIQUE,
                 email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
+                secret TEXT NOT NULL UNIQUE,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
@@ -38,6 +39,7 @@ class DatabaseConnection {
                 rating INTEGER DEFAULT 100,
                 wins INTEGER DEFAULT 0,
                 losses INTEGER DEFAULT 0,
+                verified INTEGER DEFAULT 0,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE

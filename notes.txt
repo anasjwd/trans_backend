@@ -1,5 +1,3 @@
-when calling createProfile it is a service to service communication, I need authorization
-
 I need a delete user endpoint
 
 when getting friends I need to return: alias, avatar, online/offline, rating

@@ -46,10 +46,10 @@ class UserModel {
         }
         const hashedPassword = bcrypt.hashSync(userData.password, 10);
         const stmt = this.db.prepare(`
-            INSERT INTO users (first_name, last_name, alias, email, password)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO users (first_name, last_name, alias, email, password, secret)
+            VALUES (?, ?, ?, ?, ?, ?)
         `);
-        const result = stmt.run(userData.firstName, userData.lastName, userData.alias, userData.email, hashedPassword);
+        const result = stmt.run(userData.firstName, userData.lastName, userData.alias, userData.email, hashedPassword, userData.secret);
         return { id: result.lastInsertRowid, ...userData };
     }
     

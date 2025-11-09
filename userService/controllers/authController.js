@@ -1,5 +1,6 @@
 import UserModel from '../models/user.js'
 import ProfileModel from '../models/profile.js';
+import crypto from 'crypto';
 
 class AuthController {
     constructor() {
@@ -10,7 +11,8 @@ class AuthController {
     signup = async (request, reply) => {
         const {firstName, lastName, alias, email, password} = request.body;
         try {
-            const user = await this.userModel.create({firstName, lastName, alias, email, password});
+            const secret = crypto.randomBytes(16).toString('hex');
+            const user = await this.userModel.create({firstName, lastName, alias, email, password, secret});
             const token = request.server.jwt.sign({
                 id: user.id,
                 firstName: user.firstName,
@@ -123,6 +125,10 @@ class AuthController {
                 error: 'Logout failed'
             });
         }
+    }
+
+    requestVerification = async (request, reply) => {
+
     }
 }
 

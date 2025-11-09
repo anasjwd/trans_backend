@@ -10,3 +10,5 @@ to signin:
 curl -X POST http://localhost:3306/api/users/auth/logout -b cookie.txt
 
 curl -X POST http://localhost:3306/api/users/auth/signin -H "Content-Type: application/json" -d '{"alias":"ilias","password":"Test1234"}' -c cookie.txt
+
+curl -X PUT http://localhost:3306/api/users/profile/ -H "Content-Type: application/json" -d '{"rating": "200"}'

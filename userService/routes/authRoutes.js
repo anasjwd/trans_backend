@@ -6,7 +6,8 @@ const authController = new AuthController();
 async function authRoutes(fastify, options) {
     fastify.post('/signup', {preValidation: [signupValidation]}, authController.signup);
     fastify.post('/signin', {preValidation: [signinValidation]}, authController.signin);
-    // TODO: fastify.post('/verifyemail/:code', authController.verifyEmail);
+    fastify.post('/request-verificatin', {preValidation: [signinValidation]}, authController.requestVerification);
+    fastify.post('/verify-email/:secret', authController.verifyEmail); // don't need to be protected
     fastify.post('/logout', {onRequest: [fastify.jwtAuth]}, authController.logout);
 }
 
