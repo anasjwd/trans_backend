@@ -26,6 +26,16 @@ class UserModel {
         return stmt.get(email);
     }
 
+    getKey(email) {
+        const stmt = this.db.prepare(`SELECT key FROM users WHERE email = ?`);
+        return stmt.get(email);
+    }
+
+    findByKey(key) {
+        const stmt = this.db.prepare(`SELECT * FROM users WHERE key = ?`);
+        return stmt.get(key);
+    }
+
     areUniqueCredentials(alias, email) {
         const aliasExists = this.findByAlias(alias);
         const emailExists = this.findByEmail(email);
@@ -46,10 +56,10 @@ class UserModel {
         }
         const hashedPassword = bcrypt.hashSync(userData.password, 10);
         const stmt = this.db.prepare(`
-            INSERT INTO users (first_name, last_name, alias, email, password, secret)
+            INSERT INTO users (first_name, last_name, alias, email, password, key)
             VALUES (?, ?, ?, ?, ?, ?)
         `);
-        const result = stmt.run(userData.firstName, userData.lastName, userData.alias, userData.email, hashedPassword, userData.secret);
+        const result = stmt.run(userData.firstName, userData.lastName, userData.alias, userData.email, hashedPassword, userData.key);
         return { id: result.lastInsertRowid, ...userData };
     }
     

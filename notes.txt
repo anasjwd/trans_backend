@@ -1,3 +1,12 @@
 I need a delete user endpoint
 
 when getting friends I need to return: alias, avatar, online/offline, rating
+
+create these pages:
+    /email-verification-success - Shows success message
+    /email-verification-failed - Shows error and "resend verification" option
+    /email-verification-error - Shows generic error message
+and redirect to them
+
+use websockets
+

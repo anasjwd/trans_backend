@@ -15,10 +15,11 @@ class ProfileModel {
         return stmt.get(userId);
     }
 
+    // TODO: verified is not a public thing to change
     updateProfile(userId, updates) {
         const toUpdate = [];
         const values = [];
-        const validFields = ['bio', 'avatar_url', 'status', 'rating', 'wins', 'losses'];
+        const validFields = ['bio', 'avatar_url', 'status', 'rating', 'wins', 'losses', 'verified'];
         
         Object.keys(updates).forEach(field => {
             if (validFields.includes(field)) {

@@ -1,6 +1,7 @@
 import UserModel from '../models/user.js'
 import ProfileModel from '../models/profile.js';
 import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
 class AuthController {
     constructor() {
@@ -11,8 +12,8 @@ class AuthController {
     signup = async (request, reply) => {
         const {firstName, lastName, alias, email, password} = request.body;
         try {
-            const secret = crypto.randomBytes(16).toString('hex');
-            const user = await this.userModel.create({firstName, lastName, alias, email, password, secret});
+            const key = crypto.randomBytes(16).toString('hex');
+            const user = await this.userModel.create({firstName, lastName, alias, email, password, key});
             const token = request.server.jwt.sign({
                 id: user.id,
                 firstName: user.firstName,
@@ -40,6 +41,7 @@ class AuthController {
                 profileCreated: holder.changes === 1 ? true : false,
             };
         } catch(error) {
+            console.log(error);
             if (error.message === 'ALIAS_TAKEN') {
                 return reply.code(409).send({
                     success: false,
@@ -107,6 +109,7 @@ class AuthController {
 
     logout = async (request, reply) => {
         try {
+            this.profileModel.updateProfile(request.user.id, {'status': 'offline'});
             reply.setCookie('token', '', {
                 path: '/',
                 httpOnly: true,
@@ -114,21 +117,76 @@ class AuthController {
                 sameSite: 'lax',
                 maxAge: -1,
             });
-            this.profileModel.updateProfile(request.user.id, {'status': 'offline'});
             return {
                 success: true,
                 message: 'Logged out successfully'
             };
         } catch(error) {
-            return reply.code(500).send({
-                success: false,
-                error: 'Logout failed'
-            });
+            if (error.code && error.code.includes('SQLITE')) {
+                return reply.code(500).send({success: false, error: 'Database Error - failed to logout'});
+            } else {
+                return reply.code(500).send({success: false, error: 'Internal Server Error - Failed to logout'});
+            }
         }
     }
 
-    requestVerification = async (request, reply) => {
+    sendMail = (email, key) => {
+        let Transport = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: "anasjawad7777@gmail.com",
+                pass: "losa ppku ybdl ozvf"
+            }
+        });
+        const sender = "anas jawad";
+        let mailOption = {
+            from: sender,
+            to: email,
+            subject: "Email Confirmation",
+            html: `Press <a href=http://localhost:3306/api/users/auth/verify-email/${key}> here </a> to verify your email. Thanks`
+        };
+        Transport.sendMail(mailOption, (error, response) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log("Message sent");
+            }
+        })
+    }
 
+    requestVerification = async (request, reply) => {
+        const {email} = request.user;
+        try {
+            const holder = this.userModel.getKey(email);
+            this.sendMail(email, holder.key);
+        } catch(error) {
+            if (error.code && error.code.includes('SQLITE')) {
+                return reply.code(500).send({success: false, error: 'Database Error - failed to send request'});
+            } else {
+                return reply.code(500).send({success: false, error: 'Internal Server Error - Failed to send request'});
+            }
+        }
+    }
+
+    verifyEmail = async (request, reply) => {
+        const {key} = request.params;
+        try {
+            const user = this.userModel.findByKey(key);
+            if (!user) {
+                return reply.code(400).send({
+                    success: false,
+                    error: 'Failed to verify email - Invalid key'
+                });
+            }
+            this.profileModel.updateProfile(user.id, {"verified":"1"});
+            return {success: true, message: 'Email verified successfully'};
+        } catch(error) {
+            if (error.code && error.code.includes('SQLITE')) {
+                return reply.code(500).send({success: false, error: 'Database Error - failed to verify email'});
+            } else {
+                return reply.code(500).send({success: false, error: 'Internal Server Error - Failed to verify email'});
+            }
+        }
     }
 }
 

@@ -9139,7 +9139,7 @@
       "version": 3,
       "versionNonce": 1739208246,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762685940022,
       "link": null,
       "locked": false,
@@ -9155,10 +9155,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        0.0001,
-        0.0001
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "Pk5k5a4H88gV_bcOPo7sa",
@@ -9183,7 +9180,7 @@
       "version": 3,
       "versionNonce": 512039414,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762685940541,
       "link": null,
       "locked": false,
@@ -9199,10 +9196,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        0.0001,
-        0.0001
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "zkw1BXjlnJUnlNAe5ZFzQ",
@@ -9227,7 +9221,7 @@
       "version": 3,
       "versionNonce": 1844811190,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762685943149,
       "link": null,
       "locked": false,
@@ -9243,10 +9237,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        0.0001,
-        0.0001
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "-obgPnFo0eTx6KQSl1AQt",
@@ -9271,7 +9262,7 @@
       "version": 3,
       "versionNonce": 2042800502,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762685947101,
       "link": null,
       "locked": false,
@@ -9287,10 +9278,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        0.0001,
-        0.0001
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "qfUoDVEdMUpYbZVvmJHmY",
@@ -9315,7 +9303,7 @@
       "version": 3,
       "versionNonce": 118707510,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762685949885,
       "link": null,
       "locked": false,
@@ -9331,10 +9319,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        0.0001,
-        0.0001
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "KV2Mwm5y2uyT1dcAMlcB1",
@@ -9359,7 +9344,7 @@
       "version": 3,
       "versionNonce": 2020514038,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762685952269,
       "link": null,
       "locked": false,
@@ -9375,10 +9360,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        0.0001,
-        0.0001
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "TBrC6APYJqBHdJTe8nfl8",
@@ -9403,7 +9385,7 @@
       "version": 38,
       "versionNonce": 1316241066,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762687937302,
       "link": null,
       "locked": false,
@@ -9443,10 +9425,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        -16.012451171875,
-        31.78125
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "XFDlCwJICyl7xXFnIDq2Z",
@@ -9471,7 +9450,7 @@
       "version": 37,
       "versionNonce": 1804261738,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762687937302,
       "link": null,
       "locked": false,
@@ -9507,10 +9486,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        37.98748779296875,
-        44.98124694824219
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "IHvYPOn4P378tt5Xe78XN",
@@ -9535,7 +9511,7 @@
       "version": 10,
       "versionNonce": 377602550,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762687901250,
       "link": null,
       "locked": false,
@@ -9579,10 +9555,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        -22.01251220703125,
-        43.78125
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "JRL2Ny0qC00RcmCOf8301",
@@ -9607,7 +9580,7 @@
       "version": 9,
       "versionNonce": 102846838,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762687901538,
       "link": null,
       "locked": false,
@@ -9647,10 +9620,7 @@
       ],
       "pressures": [],
       "simulatePressure": true,
-      "lastCommittedPoint": [
-        45.1875,
-        22.1812744140625
-      ]
+      "lastCommittedPoint": null
     },
     {
       "id": "T8dXXqFD72A12NuYmCAq-",
@@ -9675,7 +9645,7 @@
       "version": 84,
       "versionNonce": 1216355370,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762687937302,
       "link": null,
       "locked": false,
@@ -9712,7 +9682,7 @@
       "version": 71,
       "versionNonce": 668638070,
       "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1762687932832,
       "link": null,
       "locked": false,
@@ -9723,6 +9693,43 @@
       "verticalAlign": "top",
       "containerId": null,
       "originalText": "validate email",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "mtb2VHpAW3Yhb1ioAUebZ",
+      "type": "text",
+      "x": 361.5844034385682,
+      "y": 1614.3000642108932,
+      "width": 631.559326171875,
+      "height": 1025,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "b0t",
+      "roundness": null,
+      "seed": 2094514228,
+      "version": 3,
+      "versionNonce": 224115212,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1762716457467,
+      "link": null,
+      "locked": false,
+      "text": "const speakeasy = require('speakeasy');\nconst QRCode = require('qrcode'); // optional: for QR codes\n\n// User enables 2FA\nconst enable2FA = (user) => {\n    const secret = speakeasy.generateSecret({\n        name: \"Your App Name\"\n    });\n    \n    // Save this to user in database\n    user.twoFactorSecret = secret.base32;\n    user.twoFactorEnabled = true;\n    \n    return secret.otpauth_url; // URL for QR code\n};\n\n// User logs in with 2FA\nconst loginWith2FA = (username, password, twoFactorCode) => {\n    // 1. Verify username/password first\n    const user = getUserFromDB(username);\n    if (!user || !verifyPassword(user, password)) {\n        return { error: \"Invalid credentials\" };\n    }\n    \n    // 2. If 2FA enabled, verify the code\n    if (user.twoFactorEnabled) {\n        const isValid = speakeasy.totp.verify({\n            secret: user.twoFactorSecret,\n            encoding: 'base32',\n            token: twoFactorCode,\n            window: 1\n        });\n        \n        if (!isValid) {\n            return { error: \"Invalid 2FA code\" };\n        }\n    }\n    \n    // 3. Login successful\n    return { success: true, user: user };\n};",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "const speakeasy = require('speakeasy');\nconst QRCode = require('qrcode'); // optional: for QR codes\n\n// User enables 2FA\nconst enable2FA = (user) => {\n    const secret = speakeasy.generateSecret({\n        name: \"Your App Name\"\n    });\n    \n    // Save this to user in database\n    user.twoFactorSecret = secret.base32;\n    user.twoFactorEnabled = true;\n    \n    return secret.otpauth_url; // URL for QR code\n};\n\n// User logs in with 2FA\nconst loginWith2FA = (username, password, twoFactorCode) => {\n    // 1. Verify username/password first\n    const user = getUserFromDB(username);\n    if (!user || !verifyPassword(user, password)) {\n        return { error: \"Invalid credentials\" };\n    }\n    \n    // 2. If 2FA enabled, verify the code\n    if (user.twoFactorEnabled) {\n        const isValid = speakeasy.totp.verify({\n            secret: user.twoFactorSecret,\n            encoding: 'base32',\n            token: twoFactorCode,\n            window: 1\n        });\n        \n        if (!isValid) {\n            return { error: \"Invalid 2FA code\" };\n        }\n    }\n    \n    // 3. Login successful\n    return { success: true, user: user };\n};",
       "autoResize": true,
       "lineHeight": 1.25
     }

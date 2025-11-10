@@ -7,7 +7,7 @@ class DatabaseConnection {
             return DatabaseConnection.instance;
         }
         
-        this.db = new Database('/home/ahanaf/Desktop/trans_backend/userService/database/user.db');
+        this.db = new Database('/home/ajawad/Projects/trans_backend-main/userService/database/user.db');
         this.db.pragma('foreign_keys = ON'); // Enable foreign keys
         this.initTables();
         
@@ -24,7 +24,7 @@ class DatabaseConnection {
                 alias TEXT NOT NULL UNIQUE,
                 email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
-                secret TEXT NOT NULL UNIQUE,
+                key TEXT NOT NULL UNIQUE,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
