@@ -24,6 +24,7 @@ class DatabaseConnection {
                 alias TEXT NOT NULL UNIQUE,
                 email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
+                secret2fa TEXT DEFAULT NULL,
                 key TEXT NOT NULL UNIQUE,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )

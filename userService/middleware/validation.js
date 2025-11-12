@@ -76,7 +76,7 @@ async function signupValidation(request, reply) {
     }
 }
 
-async function signinValidation(request, reply) {
+async function loginValidation(request, reply) {
     const {alias, password} = request.body;
     if (!areAllStrings({alias, password})) {
         return reply.code(400).send({
@@ -91,4 +91,4 @@ async function signinValidation(request, reply) {
     }
 } 
 
-export {signupValidation, signinValidation};
+export {signupValidation, loginValidation};

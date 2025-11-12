@@ -6,7 +6,7 @@ class UserModel {
         this.db = dbInstance.getConnection();
     }
 
-    findById(id) {
+    getPublicInfo(id) {
         const stmt = this.db.prepare('SELECT id, first_name, last_name, alias, email FROM users WHERE id = ?');
         return stmt.get(id);
     }
@@ -14,6 +14,11 @@ class UserModel {
     findAll() {
         const stmt = this.db.prepare('SELECT id, alias, email, created_at FROM users');
         return stmt.all();
+    }
+
+    findById(id) {
+        const stmt = this.db.prepare('SELECT * FROM users WHERE id = ?');
+        return stmt.get(id);
     }
 
     findByAlias(alias) {
@@ -73,6 +78,16 @@ class UserModel {
             throw new Error('PASSWORD_INCORRECT');
         }
         return user;
+    }
+
+    update2FASecret(userId, secret) {
+        const stmt = this.db.prepare(`UPDATE users SET secret2fa = ? WHERE id = ?`);
+        return stmt.run(secret, userId);
+    }
+
+    get2FA(userId) {
+        const stmt = this.db.prepare(`SELECT secret2fa FROM users WHERE id = ?`);
+        return stmt.get(userId);
     }
 }
 

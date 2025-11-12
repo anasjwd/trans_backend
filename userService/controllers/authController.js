@@ -2,6 +2,9 @@ import UserModel from '../models/user.js'
 import ProfileModel from '../models/profile.js';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import OTPAuth from 'otpauth';
+import base32 from 'hi-base32';
+import QRCode from 'qrcode';
 
 class AuthController {
     constructor() {
@@ -60,10 +63,136 @@ class AuthController {
         }
     }
 
-    signin = async (request, reply) => {
+    login = async (request, reply) => {
         const {alias, password} = request.body;
         try {
             const user = this.userModel.checkCredentials(alias, password);
+            const twoFA = this.userModel.get2FA(user.id);
+            const token = request.server.jwt.sign({
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                alias: user.alias,
+                email: user.email
+            });
+            reply.setCookie('token', token, {
+                path: '/',
+                httpOnly: true,
+                secure: false, // false for HTTP
+                sameSite: 'lax',
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+            });
+            if (twoFA.secret2fa !== null) {
+                return {
+                    success: true,
+                    requires2FA: true,
+                    message: '2FA Authentication required'
+                };
+            }
+            return {
+                success: true, 
+                user: {
+                    id: user.id,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    alias: user.alias,
+                    email: user.email
+                },
+            };
+        } catch(error) {
+            if (error.message === 'USER_NOT_FOUND') {
+                return reply.code(404).send({ 
+                    success: false, 
+                    error: 'User not found' 
+                });
+            } else if (error.message === 'PASSWORD_INCORRECT') {
+                return reply.code(401).send({ 
+                    success: false, 
+                    error: 'Invalid password' 
+                });
+            } else if (error.code && error.code.includes('SQLITE')) {
+                return reply.code(500).send({success: false, error: 'Database Error - failed to login'});
+            } else {
+                return reply.code(500).send({success: false, error: 'Internal Server Error - Failed to login'});
+            }
+        }
+    }
+
+    enable2FA = async (request, reply) => {
+        const buffer = crypto.randomBytes(15);
+        const base32_secret = base32.encode(buffer).replace(/=/g, "").substring(0, 24);
+        try {
+            const holder = this.userModel.update2FASecret(request.user.id, base32_secret);
+            if (holder.changes === 0) {
+                return reply.code(500).send({
+                    success: false,
+                    error: 'Database Error - Failed to enable 2FA'
+                });
+            }
+            let totp = new OTPAuth.TOTP({
+                issuer: "pong42.com",
+                label: "2fa",
+                algorithm: "SHA1",
+                digits: 6,
+                secret: base32_secret,
+            });
+            const otpauth_url = totp.toString();
+            let qrCodeData;
+            try {
+                qrCodeData = await QRCode.toDataURL(otpauth_url);
+            } catch (err) {
+                return {
+                    status: "error",
+                    message: "Failed to generate QR code",
+                };
+            }
+            return {
+                success: true,
+                message: 'QR code generated successfully',
+                data: {
+                    qrCode: qrCodeData,
+                    secret: base32_secret
+                }
+            };
+        } catch(error) {
+            if (error.code && error.code.includes('SQLITE')) {
+                return reply.code(500).send({success: false, error: 'Database Error - failed to login'});
+            } else {
+                return reply.code(500).send({success: false, error: 'Internal Server Error - Failed to login'});
+            }
+        }
+    }
+
+    validate2FA = async (request, reply) => {
+        const {token} = request.body;
+        try {
+            const user = this.userModel.findById(request.user.id);
+            if (!user) {
+                return reply.code(404).send({
+                    success: false,
+                    error: 'User not found'
+                });
+            }
+            if (!user.secret2fa) {
+                return reply.code(400).send({
+                    success: false,
+                    error: '2FA is not enabled for this user'
+                });
+            }
+            let totp = new OTPAuth.TOTP({
+                issuer: "pong42.com",
+                label: "2fa",
+                algorithm: "SHA1",
+                digits: 6,
+                secret: user.secret2fa,
+            });
+            const delta = totp.validate({ token });
+            if (!delta) {
+                return reply.code(400).send({
+                    success: false,
+                    errro: 'Invalid 2FA code'
+                });
+            }
             const token = request.server.jwt.sign({
                 id: user.id,
                 firstName: user.first_name,
@@ -89,17 +218,7 @@ class AuthController {
                 },
             };
         } catch(error) {
-            if (error.message === 'USER_NOT_FOUND') {
-                return reply.code(404).send({ 
-                    success: false, 
-                    error: 'User not found' 
-                });
-            } else if (error.message === 'PASSWORD_INCORRECT') {
-                return reply.code(401).send({ 
-                    success: false, 
-                    error: 'Invalid password' 
-                });
-            } else if (error.code && error.code.includes('SQLITE')) {
+            if (error.code && error.code.includes('SQLITE')) {
                 return reply.code(500).send({success: false, error: 'Database Error - failed to login'});
             } else {
                 return reply.code(500).send({success: false, error: 'Internal Server Error - Failed to login'});

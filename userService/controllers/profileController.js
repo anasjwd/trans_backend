@@ -34,7 +34,7 @@ class ProfileController {
     viewUserProfile = (request, reply) => {
         const userId = request.params.userId;
         try {
-            const user = this.userModel.findById(userId);
+            const user = this.userModel.getPublicInfo(userId);
             if (!user) {
                 return reply.code(404).send({
                     success: false,
